@@ -1,9 +1,23 @@
 require_relative "piece.rb"
+require 'byebug'
+
 class Board
+    attr_reader :rows
+
     def initialize
-        @board = Array.new(2) { Array.new(8, Piece.new) }
-        @board += Array.new(4) { Array.new(8, nil) }
-        @board += Array.new(2) { Array.new(8, Piece.new) }
+        @rows = Array.new(2) { Array.new(8, Piece.new) }
+        @rows += Array.new(4) { Array.new(8, nil) }
+        @rows += Array.new(2) { Array.new(8, Piece.new) }
+    end
+
+    def [](pos)
+        row, col = pos
+        @rows[row][col]
+    end
+
+    def []=(pos, val)
+        row, col = pos
+        @rows[row][col] = val
     end
 
     def move_piece(start_pos, end_pos)
@@ -19,16 +33,6 @@ class Board
         end
 
         self[start_pos], self[end_pos] = fin, start
-    end
-
-    def [](pos)
-        row, col = pos
-        @board[row][col]
-    end
-
-    def []=(pos, val)
-        row, col = pos
-        @board[row][col] = val
     end
 
     def valid_pos?(pos)

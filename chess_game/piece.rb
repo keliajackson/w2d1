@@ -1,4 +1,6 @@
 class Piece
-    def initialize
+    def initialize(color)
+        @color = color
+        @pos = pos
     end
 end

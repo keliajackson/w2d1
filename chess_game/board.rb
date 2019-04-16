@@ -1,15 +1,15 @@
-require_relative "piece.rb"
+require_relative "pieces/piece.rb"
+require_relative "pieces/nullpiece.rb"
 require 'byebug'
 
 class Board
     attr_reader :rows
 
     def initialize
-        @rows = Array.new(2) { Array.new(8, Piece.new) }
-        @rows += Array.new(4) { Array.new(8, nil) }
-        @rows += Array.new(2) { Array.new(8, Piece.new) }
+        @rows = Array.new(8) { Array.new(8) }
+        set_board
     end
-
+    
     def [](pos)
         row, col = pos
         @rows[row][col]
@@ -39,5 +39,19 @@ class Board
         row, col = pos
         return false if row < 0 || row > 7 || col < 0 || col > 7
         return true
+    end
+
+    def set_board
+        add_pieces(2, 5, Nullpiece.new)
+        add_pieces(0, 1, Piece.new)
+        add_pieces(6, 7, Piece.new)
+    end
+    
+    def add_pieces(start_row, end_row, piece)
+        @rows[start_row..end_row].each_with_index do |row, i|
+            row.each_with_index do |col, j|
+                @rows[start_row + i][j] = piece
+            end
+        end
     end
 end
